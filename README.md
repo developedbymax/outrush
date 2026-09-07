@@ -31,16 +31,16 @@ Free, and stable enough to be the URL a store listing points at for years.
 ```bash
 git init && git add -A && git commit -m "Outrush website"
 git branch -M main
-git remote add origin https://github.com/<you>/outrush-website.git
+git remote add origin https://github.com/developedbymax/outrush.git
 git push -u origin main
 ```
 
 Then in the repository: **Settings → Pages → Source: Deploy from a branch → `main` → `/ (root)` → Save**. It goes live in a minute or two at:
 
 ```
-https://<you>.github.io/outrush-website/
-https://<you>.github.io/outrush-website/privacy.html
-https://<you>.github.io/outrush-website/privacy.html#terms
+https://developedbymax.github.io/outrush/
+https://developedbymax.github.io/outrush/privacy.html
+https://developedbymax.github.io/outrush/privacy.html#terms
 ```
 
 A custom domain is optional and set on the same screen.
@@ -50,8 +50,8 @@ A custom domain is optional and set on the same screen.
 In `OutrushRN/.env`:
 
 ```
-EXPO_PUBLIC_PRIVACY_POLICY_URL=https://<you>.github.io/outrush-website/privacy.html
-EXPO_PUBLIC_TERMS_URL=https://<you>.github.io/outrush-website/privacy.html#terms
+EXPO_PUBLIC_PRIVACY_POLICY_URL=https://developedbymax.github.io/outrush/privacy.html
+EXPO_PUBLIC_TERMS_URL=https://developedbymax.github.io/outrush/privacy.html#terms
 ```
 
 Then rebuild with `npx expo start --clear`. **The `--clear` is not optional** — `EXPO_PUBLIC_*` values are inlined at build time and Metro caches the transform, so without it the next build can still carry the old empty values and ads will silently never load.
