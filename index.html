@@ -1,0 +1,273 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Outrush: Block Escape — a chain-reaction puzzle for iOS and Android</title>
+<meta name="description" content="Tap a block, it slides where its arrow points and leaves through a gate in the wall. Clearing one sets off everything waiting behind it. A free chain-reaction puzzle that plays offline, with no account.">
+<meta name="theme-color" content="#141227">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="styles.css">
+
+<meta property="og:type" content="website">
+<meta property="og:title" content="Outrush: Block Escape">
+<meta property="og:description" content="Tap a block, it slides where its arrow points and leaves through a gate in the wall. Clearing one sets off everything waiting behind it — that cascade is the game.">
+<meta name="twitter:card" content="summary_large_image">
+</head>
+<body>
+
+<a class="skip" href="#main">Skip to content</a>
+
+<header>
+  <div class="wrap bar">
+    <a class="mark" href="index.html"><span class="chip" aria-hidden="true">&#9654;</span>Outrush</a>
+    <nav class="links" aria-label="Primary">
+      <a href="#play">How it plays</a>
+      <a href="#modes">Modes</a>
+      <a href="#themes">Themes</a>
+      <a href="privacy.html">Privacy</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+
+  <!-- ================= hero ================= -->
+  <section class="hero">
+    <div class="wrap hero-grid">
+      <div>
+        <p class="eyebrow">Free &middot; iPhone &amp; Android</p>
+        <h1 class="display">Outrush<span class="sub">Block Escape</span></h1>
+        <p class="lede">Tap a block, it slides where its arrow points and leaves through a gate in the wall. Clearing one sets off everything waiting behind it&nbsp;&mdash; that cascade is the game.</p>
+
+        <div class="cta-row">
+          <!-- When the app is live, replace these with the official App Store and
+               Google Play badge artwork; both stores require their own badges. -->
+          <a class="btn btn-key" href="#play">See how it plays</a>
+          <a class="btn btn-quiet soon" href="#" aria-disabled="true">App&nbsp;Store<i>Soon</i></a>
+          <a class="btn btn-quiet soon" href="#" aria-disabled="true">Google&nbsp;Play<i>Soon</i></a>
+        </div>
+        <p class="cta-note">Launching on both stores. Free to play, with an optional one-off purchase to remove ads.</p>
+      </div>
+
+      <!-- The board below is the game's own geometry: 6x6 grid, 20pt wall, 4pt
+           gutters, green gate notches at 46% of a cell. The four blocks on the
+           middle row clear as one chain, which is what the game is about. -->
+      <div class="hero-art">
+        <div class="board" role="img" aria-label="A six by six puzzle board. Four blocks on the middle row point right and clear in a single chain through a gap in the wall.">
+          <div class="pit">
+            <div class="cellgrid" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+
+            <!-- static blocks -->
+            <div class="blk" style="--r:0;--c:1;--col:#FF6B5B">&#9660;</div>
+            <div class="blk" style="--r:0;--c:4;--col:#B57BFF;--glyph:rgba(255,255,255,.94)">&#9664;</div>
+            <div class="blk" style="--r:1;--c:2;--w:2;--col:#4ADE9B">&#9650;</div>
+            <div class="blk" style="--r:1;--c:5;--col:#4CC9F0">&#9650;</div>
+            <div class="blk" style="--r:3;--c:1;--col:#FF6B5B">&#9660;<span class="badge">&#9673;</span></div>
+            <div class="blk" style="--r:3;--c:4;--col:#4ADE9B">&#9650;</div>
+            <div class="blk" style="--r:4;--c:0;--col:#8C85BE;--glyph:rgba(255,255,255,.94)">&#128274;</div>
+            <div class="blk" style="--r:4;--c:3;--col:#4CC9F0">&#9660;</div>
+            <div class="blk" style="--r:5;--c:2;--col:#FFC44D">&#9650;</div>
+            <div class="blk" style="--r:5;--c:5;--col:#B57BFF;--glyph:rgba(255,255,255,.94)">&#9664;</div>
+
+            <!-- the chain: front block first, the rest follow it out -->
+            <div class="blk chain c1" style="--r:2;--c:5;--col:#FF6B5B">&#9654;</div>
+            <div class="blk chain c2" style="--r:2;--c:4;--col:#4CC9F0">&#9654;</div>
+            <div class="blk chain c3" style="--r:2;--c:3;--col:#FFD34D">&#9654;<span class="badge">&#10022;</span></div>
+            <div class="blk chain c4" style="--r:2;--c:2;--col:#B57BFF;--glyph:rgba(255,255,255,.94)">&#9654;</div>
+          </div>
+
+          <!-- gates: the green gaps a block is allowed to leave through -->
+          <span class="gate r" style="--i:2"></span>
+          <span class="gate t" style="--i:1"></span>
+          <span class="gate t" style="--i:4"></span>
+          <span class="gate b" style="--i:2"></span>
+          <span class="gate l" style="--i:4"></span>
+          <span class="gate r" style="--i:0"></span>
+
+          <span class="pop" aria-hidden="true">+2,400 &times;4</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= stats ================= -->
+  <section class="tight">
+    <div class="wrap stats">
+      <div class="stat"><div class="v">6&times;6</div><div class="k">The whole board</div></div>
+      <div class="stat"><div class="v">6</div><div class="k">Palettes to unlock</div></div>
+      <div class="stat"><div class="v">3</div><div class="k">Challenges a day</div></div>
+      <div class="stat"><div class="v">0</div><div class="k">Accounts or logins</div></div>
+    </div>
+  </section>
+
+  <!-- ================= how it plays ================= -->
+  <section id="play">
+    <div class="wrap">
+      <div class="head">
+        <p class="eyebrow">How it plays</p>
+        <h2>Three taps and you know the game</h2>
+        <p>There is one rule, and everything else is a consequence of it.</p>
+      </div>
+      <div class="grid3">
+        <div class="card">
+          <span class="n">1</span>
+          <h3>One block, one direction</h3>
+          <p>Tap the block. It slides the way its arrow points and leaves through the green gap in the wall.</p>
+        </div>
+        <div class="card">
+          <span class="n">2</span>
+          <h3>What is behind it follows</h3>
+          <p>Two now, nose to tail. Clear the front one and the one behind it follows on its own.</p>
+        </div>
+        <div class="card">
+          <span class="n">3</span>
+          <h3>That is where the points are</h3>
+          <p>Same idea, four deep, and one is gold. One tap, one long chain. Chains score on the square, so a four is worth far more than four ones.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= block kinds ================= -->
+  <section class="tight">
+    <div class="wrap">
+      <div class="head">
+        <p class="eyebrow">On the board</p>
+        <h2>Four kinds of block</h2>
+      </div>
+      <div class="kinds">
+        <div class="kind">
+          <span class="sq" style="background:#4CC9F0" aria-hidden="true">&#9654;</span>
+          <span><b>Ordinary</b><span>Slides where it points, if the way is clear.</span></span>
+        </div>
+        <div class="kind">
+          <span class="sq" style="background:#FFD34D" aria-hidden="true">&#10022;</span>
+          <span><b>Gold</b><span>Pays a bonus on top of whatever chain it is part of.</span></span>
+        </div>
+        <div class="kind">
+          <span class="sq" style="background:#FF6B5B" aria-hidden="true">&#9673;</span>
+          <span><b>Bomb</b><span>Takes every neighbour with it when it goes.</span></span>
+        </div>
+        <div class="kind">
+          <span class="sq" style="background:#8C85BE;color:rgba(255,255,255,.94)" aria-hidden="true">&#128274;</span>
+          <span><b>Locked</b><span>Will not budge until something beside it clears.</span></span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= modes ================= -->
+  <section id="modes">
+    <div class="wrap">
+      <div class="head">
+        <p class="eyebrow">Modes</p>
+        <h2>Two ways to play, and a reason to come back</h2>
+      </div>
+      <div class="grid3">
+        <div class="card">
+          <h3>Endless</h3>
+          <p>The board refills as fast as you clear it. Keep clearing without pause and a streak multiplier builds; the run ends the moment nothing on the board can move.</p>
+        </div>
+        <div class="card">
+          <h3>Levels</h3>
+          <p>Hand-shaped boards with a fixed answer. Every one is solvable&nbsp;&mdash; the ladder is there for when you want a puzzle rather than a scramble.</p>
+        </div>
+        <div class="card">
+          <h3>Daily challenges</h3>
+          <p>Three goals every day, drawn from the date, so everyone gets the same three. Finish them for stars, and spend the stars on palettes.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= themes ================= -->
+  <section id="themes">
+    <div class="wrap">
+      <div class="head">
+        <p class="eyebrow">Themes</p>
+        <h2>Six palettes, earned by playing</h2>
+        <p>Stars come from daily challenges, not from your wallet. Every palette is checked for contrast, so the board stays readable whichever you pick.</p>
+      </div>
+      <div class="themes">
+        <div class="theme">
+          <div class="row"><span class="name">Classic</span><span class="cost free">Included</span></div>
+          <div class="swatch" aria-hidden="true"><i style="background:#FF6B5B"></i><i style="background:#FFC44D"></i><i style="background:#4ADE9B"></i><i style="background:#4CC9F0"></i><i style="background:#B57BFF"></i></div>
+        </div>
+        <div class="theme">
+          <div class="row"><span class="name">Candy</span><span class="cost">&#9733; 3</span></div>
+          <div class="swatch" aria-hidden="true"><i style="background:#FF8FB1"></i><i style="background:#FFC98A"></i><i style="background:#8FE8C6"></i><i style="background:#9DBEFF"></i><i style="background:#D9A6FF"></i></div>
+        </div>
+        <div class="theme">
+          <div class="row"><span class="name">Neon</span><span class="cost">&#9733; 6</span></div>
+          <div class="swatch" aria-hidden="true"><i style="background:#FF2E88"></i><i style="background:#EFFF3C"></i><i style="background:#2BFFA8"></i><i style="background:#22DDFF"></i><i style="background:#A94AFF"></i></div>
+        </div>
+        <div class="theme">
+          <div class="row"><span class="name">Sunset</span><span class="cost">&#9733; 10</span></div>
+          <div class="swatch" aria-hidden="true"><i style="background:#E8433F"></i><i style="background:#FF8A3D"></i><i style="background:#FFC93C"></i><i style="background:#FF5E9C"></i><i style="background:#7B4DFF"></i></div>
+        </div>
+        <div class="theme">
+          <div class="row"><span class="name">Lagoon</span><span class="cost">&#9733; 15</span></div>
+          <div class="swatch" aria-hidden="true"><i style="background:#12B5A5"></i><i style="background:#37D6E8"></i><i style="background:#7CE8B4"></i><i style="background:#3D8FD6"></i><i style="background:#FF7A6B"></i></div>
+        </div>
+        <div class="theme">
+          <div class="row"><span class="name">Dusk</span><span class="cost">&#9733; 22</span></div>
+          <div class="swatch" aria-hidden="true"><i style="background:#6C7BFF"></i><i style="background:#A56BFF"></i><i style="background:#FF6BC4"></i><i style="background:#FFA05C"></i><i style="background:#4ED6C4"></i></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= privacy ================= -->
+  <section class="tight">
+    <div class="wrap">
+      <div class="grid2">
+        <div>
+          <p class="eyebrow">Your data</p>
+          <h2>Your scores stay on your phone</h2>
+          <p>There is no account, no sign-in and no server. Scores, stars, unlocked palettes and settings are written to a small database on the device and are never uploaded anywhere. Uninstall the game and they are gone with it.</p>
+          <p>The game does show ads, and ad networks collect their own data to do that. What they take, and how to turn personalised ads off, is spelled out plainly rather than buried.</p>
+          <p style="margin-bottom:0"><a href="privacy.html">Read the privacy policy &rarr;</a></p>
+        </div>
+        <div class="card">
+          <h3>The short version</h3>
+          <ul style="padding-left:20px;margin:0;color:var(--ink-mute);font-size:15px;line-height:1.75">
+            <li>Plays fully offline.</li>
+            <li>No account, no email, no sign-in.</li>
+            <li>No location, contacts, photos or microphone.</li>
+            <li>Scores never leave the device.</li>
+            <li>Buy <b style="color:var(--ink)">Remove Ads</b> and the ad SDK is never started at all.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= closing ================= -->
+  <section>
+    <div class="wrap">
+      <div class="band">
+        <p class="eyebrow">Coming soon</p>
+        <h2>One tap. Then everything moves at once.</h2>
+        <p style="max-width:44ch;margin:0 auto">Free on iPhone and Android.</p>
+        <div class="cta-row">
+          <a class="btn btn-quiet soon" href="#" aria-disabled="true">App&nbsp;Store<i>Soon</i></a>
+          <a class="btn btn-quiet soon" href="#" aria-disabled="true">Google&nbsp;Play<i>Soon</i></a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap foot">
+    <nav aria-label="Footer">
+      <a href="privacy.html">Privacy Policy</a>
+      <a href="privacy.html#terms">Terms of Use</a>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>

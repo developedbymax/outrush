@@ -1,0 +1,357 @@
+/* Outrush — site styles.
+   Palette, radii and typography are lifted from the game so the site and the app
+   read as one thing: colours from src/ui/theme.js, board geometry from
+   src/ui/Board.js (PAD 20, GAP 4, gate 8px x 0.46 cell), block radius from
+   Block.js. The game uses the platform system font at weights 700-900 with tight
+   negative tracking on big numerals — no webfont is loaded here for the same
+   reason: it is what the app actually renders. */
+
+:root {
+  --ground:#141227; --surface:#1D1A36; --board:#241F44; --cellcol:#2C2755;
+  --wall:#443C7E; --line:#3B3470;
+  --ink:#EEEBFF; --ink-mute:#9992C4; --ink-faint:#6F6899;
+  --accent:#FFC44D; --danger:#FF6B5B; --ok:#4ADE9B; --gold:#FFD34D;
+  --locked:#8C85BE;
+  --on-accent:#241704;              /* Block.js btnKeyText — dark ink on amber */
+
+  --font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue",
+          Arial, "Noto Sans", sans-serif;
+  --maxw: 1080px;
+  --r-lg:20px; --r-md:14px; --r-sm:11px;
+
+  /* board geometry */
+  --cell: clamp(34px, 9vw, 54px);
+  --pad: calc(var(--cell) * 0.38);
+  --gap: 4px;
+  --gl: calc(var(--cell) * 0.46);
+  --gt: 8px;
+}
+
+* { box-sizing: border-box; }
+
+/* Anchor jumps are instant on purpose. The consent dialog in the game opens the
+   terms URL directly at #terms, which is ~4,000px down the legal page; smooth
+   scrolling that distance on load reads as the page drifting rather than as a
+   jump, and it is the kind of thing a store reviewer sees once and mistrusts. */
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  font-family: var(--font);
+  background: var(--ground);
+  color: var(--ink);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+/* the menu glow the app has behind its board */
+body::before {
+  content: ""; position: fixed; inset: 0; pointer-events: none; z-index: 0;
+  background:
+    radial-gradient(60rem 40rem at 78% -10%, rgba(255,196,77,.10), transparent 60%),
+    radial-gradient(50rem 36rem at 5% 8%, rgba(181,123,255,.10), transparent 60%);
+}
+main, header, footer { position: relative; z-index: 1; }
+
+a { color: var(--accent); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 4px; }
+
+.wrap { width: 100%; max-width: var(--maxw); margin: 0 auto; padding: 0 22px; }
+
+.skip {
+  position: absolute; left: -9999px; top: 0;
+  background: var(--accent); color: var(--on-accent);
+  padding: 10px 16px; border-radius: 0 0 var(--r-sm) 0; font-weight: 800; z-index: 99;
+}
+.skip:focus { left: 0; }
+
+/* ---------- type ---------- */
+.eyebrow {
+  font-size: 11px; font-weight: 800; letter-spacing: 1.6px;
+  text-transform: uppercase; color: var(--accent); margin: 0 0 12px;
+}
+.eyebrow.faint { color: var(--ink-faint); }
+
+h1, h2, h3 { margin: 0 0 14px; line-height: 1.15; }
+.display {
+  font-size: clamp(46px, 9vw, 88px); font-weight: 900;
+  letter-spacing: -0.035em; line-height: 0.94; margin-bottom: 6px;
+}
+.display .sub {
+  display: block; font-size: clamp(17px, 2.6vw, 26px); font-weight: 800;
+  letter-spacing: 0.01em; color: var(--ink-mute); margin-top: 12px;
+}
+h2 { font-size: clamp(26px, 3.6vw, 38px); font-weight: 900; letter-spacing: -0.02em; }
+h3 { font-size: 17px; font-weight: 800; letter-spacing: -0.01em; }
+p { margin: 0 0 16px; color: var(--ink-mute); }
+.lede { font-size: clamp(16px, 1.9vw, 19px); color: var(--ink-mute); max-width: 48ch; }
+
+/* ---------- header ---------- */
+header { padding: 22px 0; }
+.bar { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+.mark {
+  display: inline-flex; align-items: center; gap: 11px;
+  font-weight: 900; letter-spacing: -0.02em; font-size: 19px; color: var(--ink);
+}
+.mark:hover { text-decoration: none; }
+.mark .chip {
+  width: 30px; height: 30px; border-radius: 9px; background: var(--accent);
+  color: var(--on-accent); display: grid; place-items: center;
+  font-size: 15px; line-height: 1; box-shadow: inset 0 -5px 0 rgba(0,0,0,.2);
+}
+nav.links { display: flex; align-items: center; gap: 24px; }
+nav.links a { color: var(--ink-mute); font-weight: 700; font-size: 14px; }
+nav.links a:hover { color: var(--ink); text-decoration: none; }
+@media (max-width: 620px) { nav.links { display: none; } }
+
+/* ---------- buttons ---------- */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 9px;
+  padding: 15px 24px; border-radius: var(--r-md); font-weight: 800; font-size: 15px;
+  border: 1px solid transparent; cursor: pointer; text-align: center;
+}
+.btn:hover { text-decoration: none; }
+.btn-key { background: var(--accent); color: var(--on-accent); box-shadow: inset 0 -4px 0 rgba(0,0,0,.18); }
+.btn-key:hover { filter: brightness(1.06); }
+.btn-quiet { background: rgba(255,255,255,.05); color: var(--ink); border-color: var(--line); font-weight: 700; }
+.btn-quiet:hover { background: rgba(255,255,255,.09); }
+.btn[aria-disabled="true"] { opacity: .55; cursor: default; }
+.btn[aria-disabled="true"]:hover { filter: none; background: rgba(255,255,255,.05); }
+.cta-row { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 30px; }
+.cta-note { font-size: 12.5px; color: var(--ink-faint); margin-top: 14px; }
+
+/* ---------- hero ---------- */
+.hero { padding: 40px 0 76px; }
+.hero-grid { display: grid; grid-template-columns: 1.05fr 1fr; gap: 56px; align-items: center; }
+@media (max-width: 900px) {
+  .hero { padding: 24px 0 56px; }
+  .hero-grid { grid-template-columns: 1fr; gap: 44px; }
+  .hero-art { order: -1; }
+}
+
+/* ---------- the board ---------- */
+.hero-art { display: grid; place-items: center; }
+.board {
+  position: relative;
+  width: calc(var(--cell) * 6 + var(--pad) * 2);
+  height: calc(var(--cell) * 6 + var(--pad) * 2);
+  background: var(--wall); border-radius: var(--r-lg);
+  box-shadow: 0 30px 70px -20px rgba(0,0,0,.75);
+}
+.pit {
+  position: absolute; inset: var(--pad);
+  background: var(--board); border-radius: 10px;
+  /* An escaping block flies well past the wall before it finishes fading. In the
+     app that lasts 190ms and you never really see it; here it is slower, so it is
+     clipped at the pit edge and reads as leaving through the wall. The score pop
+     is a sibling of .pit, not a child, so it is not clipped with it. */
+  overflow: hidden;
+}
+.cellgrid {
+  position: absolute; inset: 0;
+  display: grid; grid-template: repeat(6, 1fr) / repeat(6, 1fr);
+}
+.cellgrid i {
+  background: var(--cellcol); border-radius: 8px;
+  margin: calc(var(--gap) / 2);
+}
+.gate { position: absolute; background: var(--ok); border-radius: 4px; }
+.gate.t, .gate.b { width: var(--gl); height: var(--gt);
+  left: calc(var(--pad) + var(--i) * var(--cell) + (var(--cell) - var(--gl)) / 2); }
+.gate.t { top: calc((var(--pad) - var(--gt)) / 2); }
+.gate.b { bottom: calc((var(--pad) - var(--gt)) / 2); }
+.gate.l, .gate.r { height: var(--gl); width: var(--gt);
+  top: calc(var(--pad) + var(--i) * var(--cell) + (var(--cell) - var(--gl)) / 2); }
+.gate.l { left: calc((var(--pad) - var(--gt)) / 2); }
+.gate.r { right: calc((var(--pad) - var(--gt)) / 2); }
+
+.blk {
+  position: absolute;
+  left: calc(var(--c) * var(--cell) + var(--gap) / 2);
+  top:  calc(var(--r) * var(--cell) + var(--gap) / 2);
+  width:  calc(var(--w, 1) * var(--cell) - var(--gap));
+  height: calc(var(--h, 1) * var(--cell) - var(--gap));
+  background: var(--col); border-radius: var(--r-sm);
+  display: grid; place-items: center; overflow: hidden;
+  font-size: calc(var(--cell) * 0.4); line-height: 1;
+  color: var(--glyph, rgba(22,10,48,.72));
+}
+.blk::after {                              /* Block.js bevel */
+  content: ""; position: absolute; left: 0; right: 0; bottom: 0;
+  height: 15%; background: rgba(0,0,0,.2);
+}
+.blk .badge {
+  position: absolute; top: 2px; right: 5px;
+  font-size: calc(var(--cell) * 0.2); line-height: 1;
+}
+
+/* the floating score the game pops on a clear (Fx.js) */
+.pop {
+  position: absolute; left: 50%; top: 38%; transform: translateX(-50%);
+  font-weight: 900; font-size: calc(var(--cell) * 0.52); color: var(--accent);
+  text-shadow: 0 2px 14px rgba(0,0,0,.6); opacity: 0; pointer-events: none;
+  white-space: nowrap;
+}
+
+/* Resting state above is VISIBLE and correct — same rule as Block.js. Motion is
+   added only when the visitor has not asked for less of it. */
+@media (prefers-reduced-motion: no-preference) {
+  .chain { animation: escape 6.4s cubic-bezier(.4,0,.7,1) infinite; }
+  .chain.c2 { animation-delay: .17s; }
+  .chain.c3 { animation-delay: .34s; }
+  .chain.c4 { animation-delay: .51s; }
+  .pop { animation: pop 6.4s ease-out infinite; }
+  @keyframes escape {
+    0%, 52%   { transform: translate(0,0) scale(1); opacity: 1; }
+    62%       { transform: translate(calc(var(--cell) * 4.6), 0) scale(1); opacity: 0; }
+    62.01%, 88% { transform: translate(0,0) scale(.55); opacity: 0; }
+    100%      { transform: translate(0,0) scale(1); opacity: 1; }
+  }
+  @keyframes pop {
+    0%, 58%  { opacity: 0; transform: translate(-50%, 0) scale(.8); }
+    66%      { opacity: 1; transform: translate(-50%, -14px) scale(1); }
+    78%      { opacity: 1; transform: translate(-50%, -26px) scale(1); }
+    86%, 100%{ opacity: 0; transform: translate(-50%, -40px) scale(1); }
+  }
+}
+
+/* ---------- sections ---------- */
+section { padding: 76px 0; }
+section.tight { padding: 56px 0; }
+.head { max-width: 56ch; margin-bottom: 40px; }
+.head p { margin-bottom: 0; }
+
+.grid3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+.grid2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px; }
+@media (max-width: 860px) { .grid3 { grid-template-columns: 1fr; } .grid2 { grid-template-columns: 1fr; } }
+
+.card {
+  background: var(--surface); border: 1px solid var(--line);
+  border-radius: 18px; padding: 26px;
+}
+.card p:last-child { margin-bottom: 0; }
+.card .n {
+  display: inline-grid; place-items: center; width: 30px; height: 30px;
+  border-radius: 9px; background: rgba(255,196,77,.14); color: var(--accent);
+  border: 1px solid rgba(255,196,77,.4);
+  font-size: 12px; font-weight: 800; margin-bottom: 16px;
+}
+
+/* block-kind chips */
+.kinds { display: flex; flex-wrap: wrap; gap: 12px; }
+.kind {
+  display: flex; align-items: center; gap: 13px;
+  background: var(--surface); border: 1px solid var(--line);
+  border-radius: var(--r-md); padding: 13px 18px 13px 13px; flex: 1 1 220px;
+}
+.kind .sq {
+  position: relative; width: 40px; height: 40px; border-radius: 11px;
+  display: grid; place-items: center; font-size: 16px; flex: none;
+  overflow: hidden; color: rgba(22,10,48,.72);
+}
+.kind .sq::after { content:""; position:absolute; left:0; right:0; bottom:0; height:15%; background:rgba(0,0,0,.2); }
+.kind b { display: block; font-size: 14px; font-weight: 800; color: var(--ink); }
+.kind span { font-size: 12.5px; color: var(--ink-faint); line-height: 1.45; }
+
+/* themes */
+.themes { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+@media (max-width: 860px) { .themes { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 480px) { .themes { grid-template-columns: 1fr; } }
+.theme {
+  background: var(--surface); border: 1px solid var(--line);
+  border-radius: var(--r-md); padding: 16px 18px;
+}
+.theme .row { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 13px; }
+.theme .name { font-size: 13.5px; font-weight: 800; color: var(--ink); }
+.theme .cost { font-size: 12px; font-weight: 800; color: var(--accent); letter-spacing: .3px; }
+.theme .cost.free { color: var(--ink-faint); }
+.swatch { display: flex; gap: 6px; }
+.swatch i { flex: 1; height: 26px; border-radius: 7px; box-shadow: inset 0 -4px 0 rgba(0,0,0,.2); }
+
+/* stat strip */
+.stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; text-align: center; }
+@media (max-width: 700px) { .stats { grid-template-columns: repeat(2, 1fr); gap: 26px; } }
+.stat .v { font-size: clamp(30px, 4.6vw, 44px); font-weight: 900; letter-spacing: -0.03em; color: var(--ink); line-height: 1.1; }
+.stat .k { font-size: 10.5px; font-weight: 800; letter-spacing: 1.3px; text-transform: uppercase; color: var(--ink-faint); margin-top: 6px; }
+
+/* closing band */
+.band {
+  background: var(--surface); border: 1px solid var(--line);
+  border-radius: 24px; padding: clamp(32px, 5vw, 56px); text-align: center;
+}
+.band .cta-row { justify-content: center; }
+
+/* ---------- prose (the legal page) ----------
+   Two documents live on one page, so the hierarchy is one level deeper than a
+   single document would need: h1 names the page, h2 names each document, h3 is a
+   numbered clause and h4 a sub-heading inside one. */
+/* .prose sits ON the .wrap element, so its padding shorthand must repeat the
+   22px side padding — a `0` here silently removes .wrap's gutters and the legal
+   text runs edge-to-edge on a phone. max-width is border-box, so it covers both. */
+.prose { padding: 34px 22px 84px; max-width: calc(74ch + 44px); }
+.prose h1 { font-size: clamp(32px, 5.4vw, 46px); font-weight: 900; letter-spacing: -0.03em; }
+
+.doc-nav { display: flex; flex-wrap: wrap; gap: 10px; margin: 26px 0 8px; }
+.doc-nav a {
+  border: 1px solid var(--line); background: rgba(255,255,255,.04);
+  padding: 9px 17px; border-radius: 999px;
+  font-size: 13px; font-weight: 700; color: var(--ink);
+}
+.doc-nav a:hover { background: rgba(255,255,255,.09); text-decoration: none; }
+
+.doc { margin-top: 64px; scroll-margin-top: 20px; }
+.doc h2 {
+  font-size: clamp(26px, 4.4vw, 36px); font-weight: 900; letter-spacing: -0.025em;
+  padding-top: 36px; border-top: 3px solid var(--wall); margin-bottom: 20px;
+}
+.prose h3 {
+  font-size: 19px; font-weight: 800; letter-spacing: -0.01em;
+  margin: 40px 0 13px; padding-top: 24px; border-top: 1px solid var(--line);
+}
+.prose h4 { font-size: 15.5px; font-weight: 800; margin: 26px 0 10px; color: var(--ink); }
+.prose p, .prose li { color: var(--ink-mute); font-size: 15.5px; }
+.prose ul { padding-left: 20px; margin: 0 0 16px; }
+.prose li { margin-bottom: 9px; }
+.prose li::marker { color: var(--ink-faint); }
+.prose strong { color: var(--ink); font-weight: 700; }
+.updated { font-size: 12.5px; font-weight: 800; letter-spacing: 1.1px; text-transform: uppercase; color: var(--ink-faint); margin-bottom: 30px; }
+
+.callout {
+  background: rgba(255,196,77,.09); border: 1px solid rgba(255,196,77,.34);
+  border-radius: var(--r-md); padding: 20px 22px; margin: 0 0 30px;
+}
+.callout p { color: var(--ink); margin-bottom: 10px; }
+.callout p:last-child { margin-bottom: 0; }
+
+.tbl { width: 100%; border-collapse: collapse; margin: 0 0 22px; font-size: 14.5px; display: block; overflow-x: auto; }
+.tbl th, .tbl td { text-align: left; padding: 12px 14px; border-bottom: 1px solid var(--line); vertical-align: top; }
+.tbl th { color: var(--ink); font-weight: 800; font-size: 11px; letter-spacing: 1.1px; text-transform: uppercase; white-space: nowrap; }
+.tbl td { color: var(--ink-mute); }
+
+/* ---------- footer ---------- */
+footer { border-top: 1px solid var(--line); padding: 40px 0 56px; }
+.foot { display: flex; flex-wrap: wrap; gap: 20px; align-items: center; justify-content: center; }
+.foot nav { display: flex; flex-wrap: wrap; gap: 22px; }
+.foot a { color: var(--ink-mute); font-size: 14px; font-weight: 700; }
+.foot a:hover { color: var(--ink); text-decoration: none; }
+
+/* A store button with nothing to link to yet. Quiet, with the status said out
+   loud, so it reads as "not released" rather than as a broken primary button. */
+.btn.soon { padding-top: 11px; padding-bottom: 11px; }
+.btn.soon i {
+  display: block; font-style: normal; font-size: 10px; font-weight: 800;
+  letter-spacing: 1.2px; text-transform: uppercase; color: var(--ink-faint);
+  margin-top: 2px; text-align: left;
+}
+.btn.soon { flex-direction: column; align-items: flex-start; gap: 0; }
+
+/* Let the summary card hug its content rather than stretching to match the
+   column beside it. */
+.grid2 { align-items: start; }
+
+/* The one address on the site. Sized up because it is the only actionable thing
+   on the page and a support route nobody can find is the same as none. */
+.contact-mail { font-size: 18px; font-weight: 800; letter-spacing: -0.01em; }
